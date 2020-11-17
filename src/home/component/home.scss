@@ -1,0 +1,75 @@
+.header {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.left-panel{
+    display: flex;
+    li {
+        list-style: none;
+        padding: 10px;
+    }
+    .spanLabel{
+        display: flex;
+        margin-bottom: 10px;
+    }
+    label {
+        font-size: 12px;
+    }
+    .alignLeftTime{
+        text-align: left;
+        padding: 10px;
+        margin-top: 5px;
+    }
+    .selectWrapperClass{
+        background: transparent;
+        padding: 5px;
+    }
+}
+
+.right-panel{
+    .inlineStyleContainer {
+        padding: 20px;
+        .inputBox {
+            padding: 10px;
+            border-style: none;
+            margin: 15px;
+        }
+    }
+    .button-rp{
+        position: relative;
+        right: 40%;
+    }
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    align-items: baseline;
+}
+
+.widthHeight {
+    width: 400px;
+    height: 500px;
+}
+
+.pl-10{
+    padding-left: 10px;
+}
+
+.mt-20{
+    margin-top: 20px;
+}
+
+.modalCustomWrapper {
+    position: fixed;
+    top: 100px;
+}
+
+.textArea {
+    width:120px;
+}
