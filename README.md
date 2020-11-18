@@ -1,6 +1,10 @@
-# Graph
+# Graph Visualization Project
 
-## Create an SPA which prompts the user for a chart type, data file(json/csv) and plots the chart for him.  
+## Scope : Create an SPA which prompts the user for a chart type, data file(json/csv) and plots the chart for him. 
+
+### Download the repo and first do NPM install to install dependencies & node version is 12.16.0
+
+### NPM Start to run the project 
 
 - You are free to decide the schema of json for different charts. - 
 

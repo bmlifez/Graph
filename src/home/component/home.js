@@ -1,73 +1,92 @@
-import  React               from 'react';
-import {COMPONENT_CONSTANT_FILTER,CHART_LIST_LABEL} from '../../constant/home/home.constant';
-import Select               from '../../common/select/component/select';
-import Modal                from '../../common/modal/component/modal';
+import React              from 'react';
+import {COMPONENT_CONSTANT_FILTER, 
+        CHART_LIST_LABEL }from '../../constant/home/home.constant';
+import Select             from '../../common/select/component/select';
+import Modal              from '../../common/modal/component/modal';
+import SimpleLineChart    from '../../common/charts/simpleLineChart/component/simpleLineChart';
 import './home.scss';
 
 export default class home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            filterList:[COMPONENT_CONSTANT_FILTER.TIME,COMPONENT_CONSTANT_FILTER.ROW],
-            chartList: [CHART_LIST_LABEL.SANKEY_CHART_LIST,CHART_LIST_LABEL.PARALLEL_COORDINATES_CHART,CHART_LIST_LABEL.SIMPLE_LINE_CHART],
+            filterList: [COMPONENT_CONSTANT_FILTER.TIME, 
+                COMPONENT_CONSTANT_FILTER.ROW],
+            chartList: [CHART_LIST_LABEL.SANKEY_CHART_LIST, 
+                CHART_LIST_LABEL.PARALLEL_COORDINATES_CHART, 
+                CHART_LIST_LABEL.SIMPLE_LINE_CHART],
             filterConfig: {
-                time:"",
-                row:""
+                time: "",
+                row: ""
             },
-            selectedChart:CHART_LIST_LABEL.SIMPLE_LINE_CHART,
-            data:{},
+            selectedChart: null,
+            data: [],
             isModalOpen: false,
-            modalStyle:{
-                height:'400px',
-                width:'400px'
+            modalStyle: {
+                height: '400px',
+                width: '400px'
             }
         };
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getDataFromUser();
     }
 
-    getDataFromUser=()=>{
+    getDataFromUser = () => {
         this.isModalOpen(true);
     }
 
-    isModalOpen=(isModalOpen)=>{
+    isModalOpen = (isModalOpen) => {
         this.setState({
             isModalOpen
         })
     }
 
-    updateSelectedChart=(e)=>{
+    updateSelectedChart = (e) => {
         this.setState({
             selectedChart: e.target.value
         })
     }
 
-    generateModalBody=()=>{
-        const {chartList}=this.state
+    validateSchema=()=>{
+        const {selectedChart}=this.state;
+        switch (selectedChart) {
+            case CHART_LIST_LABEL.SIMPLE_LINE_CHART:
+
+        }
+    }
+
+    updateData = (e) => {
+        this.setState({
+            data: e.target.value 
+        })
+    }
+
+    generateModalBody = () => {
+        const { chartList } = this.state
         return (
             <>
                 <div className="mt-20">
-                    <Select 
+                    <Select
                         options={chartList}
                         optionsInlineText={""}
                         saveClickCallBack={this.updateSelectedChart}
                     />
                 </div>
                 <div className="mt-20">
-                    <textarea style={{width:"300px",height:"200px"}} />
+                    <textarea style={{ width: "300px", height: "200px" }} onChange={e => this.updateData(e)} />
                 </div>
             </>
         )
     }
 
-    updateTime=(e)=>{
-        console.log(e.target.value)
+    updateTime = (e) => {
+        
     }
 
-    generatedFilterBody=(component)=>{
-        switch (component){
+    generatedFilterBody = (component) => {
+        switch (component) {
             case null:
                 return;
             case COMPONENT_CONSTANT_FILTER.TIME:
@@ -79,48 +98,60 @@ export default class home extends React.Component {
                             <label className="pl-10">Since</label>
                         </span>
                         <div>
-                            <Select 
-                                options={[1,2,3,4,5,7]}
-                                optionsInlineText={"hour"}
-                                saveClickCallBack={this.updateTime}
-                                parentContainerClass={"alignLeftTime"}
-                                selectWrapperClass={"selectWrapperClass"}
+                            <Select
+                            options={[1, 2, 3, 4, 5, 7]}
+                            optionsInlineText={"hour"}
+                            saveClickCallBack={this.updateTime}
+                            parentContainerClass={"alignLeftTime"}
+                            selectWrapperClass={"selectWrapperClass"}
                             />
-                            <Select 
-                                options={[1,2,3,4,5,7]}
-                                optionsInlineText={"hour"}
-                                saveClickCallBack={this.updateTime}
-                                parentContainerClass={"alignLeftTime"}
-                                selectWrapperClass={"selectWrapperClass"}
+                            <Select
+                            options={[1, 2, 3, 4, 5, 7]}
+                            optionsInlineText={"hour"}
+                            saveClickCallBack={this.updateTime}
+                            parentContainerClass={"alignLeftTime"}
+                            selectWrapperClass={"selectWrapperClass"}
                             />
                         </div>
                     </>
                 )
-                case COMPONENT_CONSTANT_FILTER.ROW:
-                    return (
-                        <>
-                            <h4>ROW</h4>
-                            <Select 
-                                options={[1000,2000,3000,4000,5000,7000]}
-                                optionsInlineText={""}
-                                saveClickCallBack={this.updateTime}
-                                parentContainerClass={"alignLeftTime"}
-                                selectWrapperClass={"selectWrapperClass"}
-                            />
-                        </>
-                    )
+            case COMPONENT_CONSTANT_FILTER.ROW:
+                return (
+                    <>
+                        <h4>ROW</h4>
+                        <Select
+                        options={[1000, 2000, 3000, 4000, 5000, 7000]}
+                        optionsInlineText={""}
+                        saveClickCallBack={this.updateTime}
+                        parentContainerClass={"alignLeftTime"}
+                        selectWrapperClass={"selectWrapperClass"}
+                        />
+                    </>
+                )
         }
     }
 
-    
+    generateChart = (selectedChart) => {
+        const { data } = this.state;
+        switch (selectedChart) {
+            case null:
+                return;
+            case CHART_LIST_LABEL.SIMPLE_LINE_CHART:
+                return (
+                    <SimpleLineChart
+                        data={[25,30,45,60,200]} 
+                    />
+                )
+        }
+    }
 
     render() {
-        const {filterList,isModalOpen,modalStyle}  = this.state
-        const leftPanel = filterList.map((component,index)=>{
-            return(
+        const { filterList, isModalOpen, modalStyle, selectedChart } = this.state;
+        const leftPanel = filterList.map((filter, index) => {
+            return (
                 <li className="pointer" key={index}>
-                    {this.generatedFilterBody(component)}
-                </li>  
+                    {this.generatedFilterBody(filter)}
+                </li>
             )
         })
         return (
@@ -136,28 +167,28 @@ export default class home extends React.Component {
                         </ul>
                     </section>
                     <section className="right-panel">
-                        
+                        {!isModalOpen&&this.generateChart(selectedChart)}
                     </section>
                 </div>
-                { isModalOpen && 
+                { isModalOpen &&
                     <Modal
-                    heading= {"Select chart type & enter json"}
-                    modalBody={this.generateModalBody()}
-                    primaryBtn={{
-                        id: 'primaryButton',
-                        show: true,
-                        text: 'Submit',
-                        onClick: ()=> this.saveClickCallback()
-                    }}
-                    secondaryBtn={{
-                        id: 'secondaryButton',
-                        show: true,
-                        text: 'Cancel',
-                        onClick: ()=> this.isModalOpen(false)
-                    }}
-                    customWrapperClass={"modalCustomWrapper"}
-                    customInlineStyle={modalStyle}
-                    cancelClickCallback={()=>this.isModalOpen(false)}
+                        heading={"Select chart type & enter json"}
+                        modalBody={this.generateModalBody()}
+                        primaryBtn={{
+                            id: 'primaryButton',
+                            show: true,
+                            text: 'Submit',
+                            onClick: () =>  this.isModalOpen(false)
+                        }}
+                        secondaryBtn={{
+                            id: 'secondaryButton',
+                            show: true,
+                            text: 'Cancel',
+                            onClick: () => this.isModalOpen(false)
+                        }}
+                        customWrapperClass={"modalCustomWrapper"}
+                        customInlineStyle={modalStyle}
+                        cancelClickCallback={() => this.isModalOpen(false)}
                     />
                 }
             </React.Fragment>
